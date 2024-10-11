@@ -67,25 +67,8 @@ jobs:
           wget -P ${{ env.SCRIPTS_PATH }}/source/include/stocklib_officerspy https://raw.githubusercontent.com/OfficerSpy/SM_Stock_OfficerSpy/main/stocklib_officerspy/util.inc
           wget -P ${{ env.SCRIPTS_PATH }}/source/include/stocklib_officerspy/mathlib https://raw.githubusercontent.com/OfficerSpy/SM_Stock_OfficerSpy/main/stocklib_officerspy/mathlib/vector.inc
           wget -P ${{ env.SCRIPTS_PATH }}/source/include/stocklib_officerspy/other https://raw.githubusercontent.com/OfficerSpy/SM_Stock_OfficerSpy/main/stocklib_officerspy/other/cpp.inc
-          wget -P ${{ env.SCRIPTS_PATH }}/source/include/stocklib_officerspy/other https://raw.githubusercontent.com/OfficerSpy/SM_Stock_OfficerSpy/main/stocklib_officerspy/other/cpp_valve.inc
-          wget -P ${{ env.SCRIPTS_PATH }}/source/include/stocklib_officerspy/public https://raw.githubusercontent.com/OfficerSpy/SM_Stock_OfficerSpy/main/stocklib_officerspy/public/bspflags.inc
-          wget -P ${{ env.SCRIPTS_PATH }}/source/include/stocklib_officerspy/public https://raw.githubusercontent.com/OfficerSpy/SM_Stock_OfficerSpy/main/stocklib_officerspy/public/const.inc
-          wget -P ${{ env.SCRIPTS_PATH }}/source/include/stocklib_officerspy/public https://raw.githubusercontent.com/OfficerSpy/SM_Stock_OfficerSpy/main/stocklib_officerspy/public/shake.inc
-          wget -P ${{ env.SCRIPTS_PATH }}/source/include/stocklib_officerspy/shared https://raw.githubusercontent.com/OfficerSpy/SM_Stock_OfficerSpy/main/stocklib_officerspy/shared/econ_item_constants.inc
-          wget -P ${{ env.SCRIPTS_PATH }}/source/include/stocklib_officerspy/shared https://raw.githubusercontent.com/OfficerSpy/SM_Stock_OfficerSpy/main/stocklib_officerspy/shared/mp_shareddefs.inc
-          wget -P ${{ env.SCRIPTS_PATH }}/source/include/stocklib_officerspy/shared https://raw.githubusercontent.com/OfficerSpy/SM_Stock_OfficerSpy/main/stocklib_officerspy/shared/shareddefs.inc
-          wget -P ${{ env.SCRIPTS_PATH }}/source/include/stocklib_officerspy/shared https://raw.githubusercontent.com/OfficerSpy/SM_Stock_OfficerSpy/main/stocklib_officerspy/shared/tf_item_constants.inc
-          wget -P ${{ env.SCRIPTS_PATH }}/source/include/stocklib_officerspy/shared https://raw.githubusercontent.com/OfficerSpy/SM_Stock_OfficerSpy/main/stocklib_officerspy/shared/tf_shareddefs.inc
-          wget -P ${{ env.SCRIPTS_PATH }}/source/include/stocklib_officerspy/tf https://raw.githubusercontent.com/OfficerSpy/SM_Stock_OfficerSpy/main/stocklib_officerspy/tf/stocklib_extra_vscript.inc
-          wget -P ${{ env.SCRIPTS_PATH }}/source/include/stocklib_officerspy/tf https://raw.githubusercontent.com/OfficerSpy/SM_Stock_OfficerSpy/main/stocklib_officerspy/tf/tf_bot.inc
-          wget -P ${{ env.SCRIPTS_PATH }}/source/include/stocklib_officerspy/tf https://raw.githubusercontent.com/OfficerSpy/SM_Stock_OfficerSpy/main/stocklib_officerspy/tf/tf_fx.inc
-          wget -P ${{ env.SCRIPTS_PATH }}/source/include/stocklib_officerspy/tf https://raw.githubusercontent.com/OfficerSpy/SM_Stock_OfficerSpy/main/stocklib_officerspy/tf/tf_gamerules.inc
-          wget -P ${{ env.SCRIPTS_PATH }}/source/include/stocklib_officerspy/tf https://raw.githubusercontent.com/OfficerSpy/SM_Stock_OfficerSpy/main/stocklib_officerspy/tf/tf_item.inc
-          wget -P ${{ env.SCRIPTS_PATH }}/source/include/stocklib_officerspy/tf https://raw.githubusercontent.com/OfficerSpy/SM_Stock_OfficerSpy/main/stocklib_officerspy/tf/tf_obj.inc
-          wget -P ${{ env.SCRIPTS_PATH }}/source/include/stocklib_officerspy/tf https://raw.githubusercontent.com/OfficerSpy/SM_Stock_OfficerSpy/main/stocklib_officerspy/tf/tf_objective_resource.inc
-          wget -P ${{ env.SCRIPTS_PATH }}/source/include/stocklib_officerspy/tf https://raw.githubusercontent.com/OfficerSpy/SM_Stock_OfficerSpy/main/stocklib_officerspy/tf/tf_player.inc
-          wget -P ${{ env.SCRIPTS_PATH }}/source/include/stocklib_officerspy/tf https://raw.githubusercontent.com/OfficerSpy/SM_Stock_OfficerSpy/main/stocklib_officerspy/tf/tf_player_shared.inc
-          wget -P ${{ env.SCRIPTS_PATH }}/source/include/stocklib_officerspy/tf https://raw.githubusercontent.com/OfficerSpy/SM_Stock_OfficerSpy/main/stocklib_officerspy/tf/tf_playerclass_shared.inc
+          wget -P ${{ env.SCRIPTS_PATH }}/source/include/stocklib_officerspy/other https://raw.githubusercontent.com/OfficerSpy/SM_Stock_OfficerSpy/main/stocklib_officerspy/other/detours.inc
+          wget -P ${{ env.SCRIPTS_PATH }}/source/include/stocklib_officerspy/other https://raw.githubusercontent.com/OfficerSpy/SM_Stock_OfficerSpy/main/stocklib_officerspy/other/takedamageinfo.inc
 
       - name: Setup SourcePawn Compiler ${{ matrix.sm-version }}
         id: setup_sp
@@ -111,6 +94,12 @@ jobs:
         run: |
           zip -qq -y -r ${{ github.event.repository.name }}.zip configs gamedata translations plugins
         working-directory: ${{ env.SCRIPTS_PATH }}
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: Plugin-Zip
+          path: ${{ env.SCRIPTS_PATH }}/${{ github.event.repository.name }}.zip
 
       - name: List files in the directory
         run: ls -R
